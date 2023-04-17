@@ -7,12 +7,17 @@ import { AppState, useAppDispatch } from '../store';
 import { Cat } from '../types';
 import Card from './Card';
 
+type Props = {
+  onStop: () => void;
+};
+
 const CardsContainer = styled.div`
   display: flex;
   gap: 8px;
 `;
 // TODO: error handling
-export default function GameBoard() {
+export default function GameBoard(props: Props) {
+  const { onStop } = props;
   const { data, error, isLoading } = useGetCatImagesQuery(10);
   const { flippedCardId, nomatchCardId, collectedCardIds } = useSelector(
     (state: AppState) => state.reducer,
@@ -59,6 +64,9 @@ export default function GameBoard() {
           <CardsContainer>{playableCards}</CardsContainer>
           <p>Collected cards:</p>
           <CardsContainer>{collectedCards}</CardsContainer>
+          <button type="button" onClick={onStop}>
+            Quit
+          </button>
         </>
       )}
     </div>
