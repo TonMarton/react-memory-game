@@ -6,12 +6,14 @@ interface GameState {
   flippedCardId: string | null;
   nomatchCardId: string | null;
   collectedCardIds: string[];
+  pairsLeft: number;
 }
 
 const initialState = <GameState>{
   flippedCardId: null,
   nomatchCardId: null,
   collectedCardIds: [],
+  pairsLeft: 10,
 };
 
 const gameSlice = createSlice({
@@ -33,6 +35,7 @@ const gameSlice = createSlice({
       if (pairId === state.flippedCardId) {
         state.collectedCardIds.push(state.flippedCardId, cardId);
         state.flippedCardId = null;
+        state.pairsLeft -= 1;
       } else {
         state.nomatchCardId = cardId;
       }
@@ -41,8 +44,12 @@ const gameSlice = createSlice({
       state.flippedCardId = null;
       state.nomatchCardId = null;
     },
+    quitGame() {
+      return initialState;
+    },
   },
 });
 
-export const { selectCard, flipBackAfterIncorrect } = gameSlice.actions;
+export const { selectCard, flipBackAfterIncorrect, quitGame } =
+  gameSlice.actions;
 export default gameSlice.reducer;
