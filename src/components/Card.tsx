@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { selectCard } from '../reducer';
+import { selectCard } from '../slices/game';
 import { useAppDispatch } from '../store';
 import { Cat } from '../types';
 

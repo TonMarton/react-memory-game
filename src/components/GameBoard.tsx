@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { flipBackAfterIncorrect, quitGame } from '../reducer';
+import { flipBackAfterIncorrect, quitGame } from '../slices/game';
 import { AppState, useAppDispatch } from '../store';
 import { Cat } from '../types';
 import Card from './Card';
@@ -19,7 +19,7 @@ const CardsContainer = styled.div`
 export default function GameBoard(props: Props) {
   const { cats, onStop } = props;
   const { flippedCardId, nomatchCardId, collectedCardIds, pairsLeft } =
-    useSelector((state: AppState) => state.reducer);
+    useSelector((state: AppState) => state.gameReducer);
   const dispatch = useAppDispatch();
   const collectedCards: JSX.Element[] = [];
   const playableCards: JSX.Element[] = [];
@@ -38,6 +38,11 @@ export default function GameBoard(props: Props) {
     }
   });
 
+  const quit = useCallback(() => {
+    dispatch(quitGame());
+    onStop();
+  }, [dispatch, onStop]);
+
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (nomatchCardId) {
@@ -52,10 +57,11 @@ export default function GameBoard(props: Props) {
     };
   }, [nomatchCardId, dispatch]);
 
-  const onQuit = function onQuitGame() {
-    dispatch(quitGame());
-    onStop();
-  };
+  useEffect(() => {
+    if (pairsLeft === 0) {
+      quit();
+    }
+  }, [pairsLeft, dispatch, quit]);
 
   return (
     <div>
@@ -63,7 +69,7 @@ export default function GameBoard(props: Props) {
       <p>Collected cards:</p>
       <CardsContainer>{collectedCards}</CardsContainer>
       <p>Pairs to collect: {pairsLeft}</p>
-      <button type="button" onClick={onQuit}>
+      <button type="button" onClick={quit}>
         Quit
       </button>
     </div>

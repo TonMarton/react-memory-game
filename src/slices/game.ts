@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { findCardPairId } from './utils';
+import { findCardPairId } from '../utils';
 
 interface GameState {
   flippedCardId: string | null;

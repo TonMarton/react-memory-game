@@ -1,27 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useGetCatImagesQuery } from '../cats';
+import { startGame, stopGame } from '../slices/meta';
+import { AppState } from '../store';
 import GameBoard from './GameBoard';
 // TODO: error handling
 
 export default function Game() {
-  const [state, setState] = useState(false);
+  const { isInGame } = useSelector((state: AppState) => state.metaReducer);
+  const dispatch = useDispatch();
   const { data, error, isLoading, refetch } = useGetCatImagesQuery(10);
 
-  const start = function startGame() {
-    setState(true);
+  const start = function start() {
+    dispatch(startGame());
   };
 
-  const stop = function stopGame() {
-    setState(false);
+  const stop = function stop() {
+    dispatch(stopGame());
     refetch();
   };
 
-  if ((isLoading || error) && state) {
+  if ((isLoading || error) && isInGame) {
     return <div>Loading...</div>;
   }
   return (
     <div>
-      {data && state ? (
+      {data && isInGame ? (
         <GameBoard cats={data} onStop={() => stop()} />
       ) : (
         <>

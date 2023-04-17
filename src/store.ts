@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { catsApi } from './cats';
-import reducer from './reducer';
+import gameReducer from './slices/game';
+import metaReducer from './slices/meta';
 
 export const store = configureStore({
   reducer: {
-    reducer,
+    gameReducer,
+    metaReducer,
     [catsApi.reducerPath]: catsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
