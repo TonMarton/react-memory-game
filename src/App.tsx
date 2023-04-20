@@ -1,13 +1,17 @@
 import React from 'react';
-import { Provider } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { ThemeProvider } from 'styled-components';
 import Game from './components/Game';
-import { store } from './store';
+import GlobalStyle from './globalStyle';
+import { AppState } from './store';
 
 function App() {
+  const theme = useSelector((state: AppState) => state.metaReducer.theme);
   return (
-    <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
       <Game />
-    </Provider>
+    </ThemeProvider>
   );
 }
 
