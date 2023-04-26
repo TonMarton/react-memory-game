@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { flipBackAfterIncorrect, quitGame } from '../slices/game';
@@ -31,6 +31,7 @@ const CardsContainer = styled.div`
 
 export default function GameBoard(props: Props) {
   const { cats, onStop } = props;
+  const [isGameWon, setIsGameWon] = useState(false);
   const { flippedCardId, nomatchCardId, collectedCardIds, pairsLeft } =
     useSelector((state: AppState) => state.gameReducer);
   const dispatch = useAppDispatch();
@@ -73,13 +74,20 @@ export default function GameBoard(props: Props) {
 
   useEffect(() => {
     if (pairsLeft === 0) {
-      quit();
+      setIsGameWon(true);
     }
-  }, [pairsLeft, dispatch, quit]);
+  }, [pairsLeft, setIsGameWon]);
 
   return (
     <GameBoardContainer>
-      <CardsContainer>{playableCards}</CardsContainer>
+      {isGameWon ? (
+        <>
+          <h2>Game Over</h2>
+          <p>Congratulations, you have found all the cats!</p>
+        </>
+      ) : (
+        <CardsContainer>{playableCards}</CardsContainer>
+      )}
       <p>Collected cards:</p>
       <CardsContainer>{collectedCards}</CardsContainer>
       <p>Pairs to collect: {pairsLeft}</p>
