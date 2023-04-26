@@ -4,6 +4,7 @@ const theme: DefaultTheme = {
   name: 'dark',
   colors: {
     background: '#011627',
+    card: '#FDFFFC',
     text: '#FDFFFC',
   },
 };

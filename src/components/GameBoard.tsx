@@ -5,15 +5,28 @@ import { flipBackAfterIncorrect, quitGame } from '../slices/game';
 import { AppState, useAppDispatch } from '../store';
 import { Cat } from '../types';
 import Card from './Card';
+import EmptyCardPlace from './EmptyCardPlace';
 
 type Props = {
   cats: Cat[];
   onStop: () => void;
 };
 
+const GameBoardContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 const CardsContainer = styled.div`
   display: flex;
-  gap: 8px;
+  flex-wrap: wrap;
+  width: 420px;
+  gap: 20px;
+  justify-content: space-between;
 `;
 
 export default function GameBoard(props: Props) {
@@ -27,6 +40,7 @@ export default function GameBoard(props: Props) {
   cats.forEach((cat: Cat) => {
     if (collectedCardIds.includes(cat.id)) {
       collectedCards.push(<Card cat={cat} isFlipped isDisabled />);
+      playableCards.push(<EmptyCardPlace />);
     } else {
       playableCards.push(
         <Card
@@ -64,7 +78,7 @@ export default function GameBoard(props: Props) {
   }, [pairsLeft, dispatch, quit]);
 
   return (
-    <div>
+    <GameBoardContainer>
       <CardsContainer>{playableCards}</CardsContainer>
       <p>Collected cards:</p>
       <CardsContainer>{collectedCards}</CardsContainer>
@@ -72,6 +86,6 @@ export default function GameBoard(props: Props) {
       <button type="button" onClick={quit}>
         Quit
       </button>
-    </div>
+    </GameBoardContainer>
   );
 }
