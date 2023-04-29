@@ -5,6 +5,8 @@ const theme: DefaultTheme = {
   colors: {
     background: '#011627',
     card: '#FDFFFC',
+    cardLight: '#FEC2BF',
+    cardUltraLight: '#FFDAD8',
     text: '#FDFFFC',
   },
 };
