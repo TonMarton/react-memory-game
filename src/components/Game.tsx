@@ -5,7 +5,6 @@ import { stopGame } from '../slices/meta';
 import { AppState } from '../store';
 import GameBoard from './GameBoard';
 import Menu from './Menu';
-// TODO: error handling
 
 export default function Game() {
   const isInGame = useSelector((state: AppState) => state.metaReducer.isInGame);
