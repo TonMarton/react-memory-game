@@ -1,12 +1,11 @@
 # Getting Started
-## Using the proper Node version
-- if you have `nvm` - run:
-  ```
-  nvm use
-  ```
-  Follow further prompts!
 
-- Alternatively, check the version in the `.nvmrc` file and install that version of node.
+- Make sure you have the correct verion of node, it can be found in the `.nvmrc`
+- Have `yarn` installed
+- Run the command
+  ```
+  yarn run start
+  ```
 
 
 
