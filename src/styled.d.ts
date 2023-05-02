@@ -8,6 +8,14 @@ declare module 'styled-components' {
       card: string;
       cardLight: string;
       cardUltraLight: string;
+      cardGradient: {
+        topLeft: string;
+        bottomRight: string;
+      };
+      cardShadow: {
+        topLeft: string;
+        bottomRight: string;
+      };
       text: string;
     };
   }

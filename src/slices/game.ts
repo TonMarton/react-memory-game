@@ -5,6 +5,7 @@ import { findCardPairId } from '../utils';
 interface GameState {
   flippedCardId: string | null;
   nomatchCardId: string | null;
+  matchCardIds: string[];
   collectedCardIds: string[];
   pairsLeft: number;
 }
@@ -12,6 +13,7 @@ interface GameState {
 const initialState = <GameState>{
   flippedCardId: null,
   nomatchCardId: null,
+  matchCardIds: [],
   collectedCardIds: [],
   pairsLeft: 10,
 };
@@ -33,9 +35,8 @@ const gameSlice = createSlice({
 
       const pairId = findCardPairId(cardId);
       if (pairId === state.flippedCardId) {
-        state.collectedCardIds.push(state.flippedCardId, cardId);
+        state.matchCardIds.push(state.flippedCardId, cardId);
         state.flippedCardId = null;
-        state.pairsLeft -= 1;
       } else {
         state.nomatchCardId = cardId;
       }
@@ -44,12 +45,21 @@ const gameSlice = createSlice({
       state.flippedCardId = null;
       state.nomatchCardId = null;
     },
+    collectAfterPairFound(state) {
+      state.collectedCardIds.push(state.matchCardIds[0], state.matchCardIds[1]);
+      state.matchCardIds = [];
+      state.pairsLeft -= 1;
+    },
     quitGame() {
       return initialState;
     },
   },
 });
 
-export const { selectCard, flipBackAfterIncorrect, quitGame } =
-  gameSlice.actions;
+export const {
+  selectCard,
+  flipBackAfterIncorrect,
+  collectAfterPairFound,
+  quitGame,
+} = gameSlice.actions;
 export default gameSlice.reducer;

@@ -10,8 +10,24 @@ const CardContainer = styled.button<{ isFaceUp: boolean }>`
   color: white;
   background-color: ${(props) => props.theme.colors.card};
   border-radius: 16px;
-  background: linear-gradient(145deg, #ff9d96, #e5847e);
-  box-shadow: 9px 9px 18px #bc6d68, -9px -9px 18px #ffb9b0;
+  background: ${(props) =>
+    `linear-gradient(145deg,${props.theme.colors.cardGradient.topLeft}, ${props.theme.colors.cardGradient.bottomRight})`};
+  box-shadow: ${(props) =>
+    props.isFaceUp
+      ? `12px 12px 18px ${props.theme.colors.cardShadow.bottomRight}, -12px -12px 18px ${props.theme.colors.cardShadow.topLeft}`
+      : `9px 9px 18px ${props.theme.colors.cardShadow.bottomRight}, -9px -9px 18px ${props.theme.colors.cardShadow.topLeft}`};
+  padding: 0;
+  overflow: hidden;
+  cursor: ${(props) => (props.isFaceUp ? 'inherit' : 'pointer')};
+  transition: box-shadow 300ms, transform 300ms;
+  transform: ${(props) => (props.isFaceUp ? 'scale(1.05)' : 'scale(1)')};
+
+  &:hover {
+    box-shadow: 12px 12px 18px
+        ${(props) => props.theme.colors.cardShadow.bottomRight},
+      -12px -12px 18px ${(props) => props.theme.colors.cardShadow.topLeft};
+    transform: scale(1.05);
+  }
 
   img {
     visibility: ${(props) => (props.isFaceUp ? 'visible' : 'hidden')};
